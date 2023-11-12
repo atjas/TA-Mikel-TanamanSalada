@@ -49,13 +49,15 @@ void loop() {
   char hasil[4];
   int soilMoisture = analogRead(soilMoisturePin);
 
-  
+
 
 
   // Konversi nilai kelembaban ke dalam rentang 0-100%
   int moisturePercentage = map(soilMoisture, 0, 4095, 0, 100);
 
-  Serial.println("Nilai Sensor : " + String(soilMoisture) + "  - ");
+  //int moisturePercentage = random(1, 100); // data dummy
+
+  Serial.println("Nilai Sensor : " + String(moisturePercentage) + "  - ");
 
   // Print nilai kelembaban ke Serial Monitor
   // Serial.print("Kelembaban Tanah: ");
