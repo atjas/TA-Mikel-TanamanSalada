@@ -1,12 +1,12 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 
-const char* ssid = "Sukidz";        // Nama jaringan Wi-Fi Anda
+const char* ssid = "Sukidz";          // Nama jaringan Wi-Fi Anda
 const char* password = "Sorehari22";  // Kata sandi Wi-Fi Anda
 #define mqttserver "broker.hivemq.com"
 #define mqttport 1883
-const int soilMoisturePin = 4;       // Pin analog untuk sensor kelembaban tanah
-const int relayPin = 25;             // Pin untuk mengontrol relay (pompa air)
+const int soilMoisturePin = 4;  // Pin analog untuk sensor kelembaban tanah
+const int relayPin = 25;        // Pin untuk mengontrol relay (pompa air)
 WiFiClient espClient;
 PubSubClient client(espClient);
 
@@ -26,8 +26,9 @@ void setup() {
   client.setServer(mqttserver, mqttport);
   Serial.println(WiFi.localIP());
 
-  pinMode(relayPin, OUTPUT);  // Set pin relay sebagai output
+  pinMode(relayPin, OUTPUT);    // Set pin relay sebagai output
   digitalWrite(relayPin, LOW);  // Inisialisasi relay dalam keadaan mati
+  pinMode(soilMoisturePin, INPUT);
 }
 
 void reconnect() {
@@ -42,23 +43,30 @@ void reconnect() {
   }
 }
 
+
+
 void loop() {
   char hasil[4];
   int soilMoisture = analogRead(soilMoisturePin);
 
+  
+
+
   // Konversi nilai kelembaban ke dalam rentang 0-100%
   int moisturePercentage = map(soilMoisture, 0, 4095, 0, 100);
 
+  Serial.println("Nilai Sensor : " + String(soilMoisture) + "  - ");
+
   // Print nilai kelembaban ke Serial Monitor
-  Serial.print("Kelembaban Tanah: ");
-  Serial.print(moisturePercentage);
-  Serial.println("%");
+  // Serial.print("Kelembaban Tanah: ");
+  // Serial.print(moisturePercentage);
+  // Serial.println("%");
 
   // Kontrol relay berdasarkan nilai kelembaban
   if (moisturePercentage < 60) {
     digitalWrite(relayPin, HIGH);  // Aktifkan relay (nyalakan pompa air)
   } else if (moisturePercentage > 75) {
-    digitalWrite(relayPin, LOW);   // Matikan relay (matikan pompa air)
+    digitalWrite(relayPin, LOW);  // Matikan relay (matikan pompa air)
   }
 
   // Konversi nilai kelembaban menjadi string
@@ -70,7 +78,7 @@ void loop() {
   // Hitung dan tampilkan presentase waktu pengiriman data
   unsigned long currentTime = millis();
   if (currentTime - lastSendTime >= sendInterval) {
-    float percentage = ((float) (currentTime - lastSendTime) / (float) sendInterval) * 100;
+    float percentage = ((float)(currentTime - lastSendTime) / (float)sendInterval) * 100;
     Serial.print("Waktu Pengiriman Data: ");
     Serial.print(percentage);
     Serial.println("%");
