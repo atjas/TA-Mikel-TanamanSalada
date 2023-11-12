@@ -55,11 +55,18 @@ void loop() {
 
 
   // Konversi nilai kelembaban ke dalam rentang 0-100%
+ // int moisturePercentage = map(soilMoisture, 0, 4095, 0, 100);
+
+
+
+
   int moisturePercentage = map(soilMoisture, 0, 4095, 0, 100);
+
+
 
   //int moisturePercentage = random(1, 100); // data dummy
 
-  Serial.println("Nilai Sensor : " + String(moisturePercentage) + "  - ");
+  Serial.println("Nilai Sensor : " + String(moisturePercentage) + " %");
 
   // Print nilai kelembaban ke Serial Monitor
   // Serial.print("Kelembaban Tanah: ");
