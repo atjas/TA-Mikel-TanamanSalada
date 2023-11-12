@@ -10,7 +10,7 @@ const int relayPin = 25;         // Pin untuk mengontrol relay (pompa air)
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-int nyala = 0, mati = 1;
+int nyala = 1, mati = 0;
 
 unsigned long lastSendTime = 0;
 const unsigned long sendInterval = 60000;  // Interval pengiriman data dalam milidetik (misalnya, setiap 60 detik)
