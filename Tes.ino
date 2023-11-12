@@ -5,10 +5,12 @@ const char* ssid = "Sukidz";          // Nama jaringan Wi-Fi Anda
 const char* password = "Sorehari22";  // Kata sandi Wi-Fi Anda
 #define mqttserver "broker.hivemq.com"
 #define mqttport 1883
-const int soilMoisturePin = 4;  // Pin analog untuk sensor kelembaban tanah
-const int relayPin = 25;        // Pin untuk mengontrol relay (pompa air)
+const int soilMoisturePin = 35;  // Pin analog untuk sensor kelembaban tanah
+const int relayPin = 25;         // Pin untuk mengontrol relay (pompa air)
 WiFiClient espClient;
 PubSubClient client(espClient);
+
+int nyala = 0, mati = 1;
 
 unsigned long lastSendTime = 0;
 const unsigned long sendInterval = 60000;  // Interval pengiriman data dalam milidetik (misalnya, setiap 60 detik)
@@ -66,9 +68,9 @@ void loop() {
 
   // Kontrol relay berdasarkan nilai kelembaban
   if (moisturePercentage < 60) {
-    digitalWrite(relayPin, HIGH);  // Aktifkan relay (nyalakan pompa air)
+    digitalWrite(relayPin, nyala);  // Aktifkan relay (nyalakan pompa air)
   } else if (moisturePercentage > 75) {
-    digitalWrite(relayPin, LOW);  // Matikan relay (matikan pompa air)
+    digitalWrite(relayPin, mati);  // Matikan relay (matikan pompa air)
   }
 
   // Konversi nilai kelembaban menjadi string
