@@ -28,7 +28,7 @@ void setup() {
 
   pinMode(relayPin, OUTPUT);    // Set pin relay sebagai output
   digitalWrite(relayPin, LOW);  // Inisialisasi relay dalam keadaan mati
-  pinMode(soilMoisturePin, INPUT);
+  //pinMode(soilMoisturePin, INPUT);
 }
 
 void reconnect() {
